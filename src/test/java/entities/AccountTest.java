@@ -23,7 +23,7 @@ class AccountTest {
     }
 
     @Test
-    void withdrawShouldDecreaseBalanceWhenPositiveAmount() {
+    void withdrawShouldDecreaseBalanceWhenPositiveAmountAndSufficientBalance() {
         Account account = AccountFactory.createAccount(200.0);
         account.withdraw(100.0);
         assertEquals(100.0, account.getBalance());
@@ -34,6 +34,14 @@ class AccountTest {
         Account account = AccountFactory.createAccount(0.0);
         assertThrows(IllegalArgumentException.class, () -> {
             account.withdraw(0.0);
+        });
+    }
+
+    @Test
+    void withdrawShouldThrowExceptionWhenInsufficientBalance() {
+        Account account = AccountFactory.createAccount(0.0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            account.withdraw(100.0);
         });
     }
 }
